@@ -71,10 +71,12 @@ export class ConvertorService {
   async create(data) {
     const { fromCurrency, toCurrency, amount, conversionDate = null} = data;
     let rate = 0;
+    let c_date = new Date();
     if(conversionDate == null){
       rate = await this.getExchangeRate(fromCurrency, toCurrency);
     }else{
       rate = await this.getHistoricalExchangeRate(fromCurrency, toCurrency, conversionDate);
+      c_date = new Date(conversionDate);
     }
     const result = amount * rate;
     return await this.conversionModel.create({
@@ -83,7 +85,7 @@ export class ConvertorService {
       amount,
       rate,
       result,
-      conversionDate: new Date(),
+      conversionDate: c_date,
     } as any);
   }
 
