@@ -91,7 +91,9 @@ export class ConvertorService {
 
   async findAll() {
     return await this.conversionModel.findAll({
+      attributes: ['fromCurrency', 'toCurrency', 'amount','rate','result','conversionDate', 'createdAt'],
       order: [['id', 'DESC']],
+      limit: 10,
     });
   }
 }
